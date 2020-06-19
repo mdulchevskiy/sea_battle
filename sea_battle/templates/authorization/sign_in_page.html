@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block style %}
+    <style>
+        a {
+            text-decoration: none;
+            color: darkred;
+        }
+        a:hover {
+            color: darkgoldenrod;
+        }
+        p {
+            margin: 7px 0;
+        }
+        #message_block {
+            width: calc(100% - 30px);
+            position: absolute;
+            left: 15px;
+            margin-top: 122px;
+            text-align: center;
+            font-family: "Palatino Linotype", serif;
+            background: white;
+            opacity: 0.8;
+            cursor: default;
+            z-index: 2000;
+        }
+        .messages {
+            list-style-type: none;
+        }
+        .messages li.success {
+            color: seagreen;
+        }
+        .messages li.info {
+            color: darkgoldenrod;
+        }
+        .messages li.error {
+            color: firebrick;
+        }
+        .hidden {
+            display: none;
+        }
+        .sign_in_block {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -150px;
+            margin-top: -125px;
+            background: rgba(0, 0, 0, 0);
+        }
+        .sign_button {
+            width: 150px;
+            display: block;
+            vertical-align: bottom;
+            padding-top: 5px;
+            margin-left: 73px;
+            margin-top: 20px;
+            border-radius: 7px;
+            border: 1px solid black;
+            background: #373332;
+            cursor: pointer;
+        }
+        .registration {
+            margin-left: 99px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {% load static %}
+
+    {% if messages %}
+        <div id="message_block">
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <script>
+        function hide_message() {
+            const message = document.querySelector("#message_block");
+            message.classList.add("hidden");
+        }
+        setTimeout(() => hide_message(), 6000)
+    </script>
+
+    <div class="sign_in_block" style="margin-left: -200px; margin-top: -160px;">
+        <img src="{% static 'bg.sign_in.png' %}" width="400px">
+    </div>
+
+    <div class="sign_in_block">
+        <form method="POST" action="{% url 'sign_in' %}" novalidate>
+            {% csrf_token %}
+            <table cellpadding="0">
+                <tbody>
+                    {% for field in form %}
+                        <tr>
+                            <td height="16px"></td>
+                                {% if field.errors %}
+                                    {% for error in field.errors %}
+                                        <td height="16px" style="color: red; font-size: 13px;">
+                                            {{ error }}
+                                        </td>
+                                    {% endfor %}
+                                {% else %}
+                                    <td></td>
+                                {% endif %}
+                        </tr>
+                        <tr>
+                            <td style="font-size: 17px; text-align: right;">
+                                {{ field.label_tag }}&nbsp;
+                            </td>
+                            <td>
+                                {{ field }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button class="sign_button">
+                <img src="{% static 'title.sign_in.png' %}" alt="Sign In" height="20px">
+            </button>
+        </form>
+        <p>
+        <a href="{% url 'registration' %}" class="registration">Create Account</a>
+    </div>
+{% endblock %}

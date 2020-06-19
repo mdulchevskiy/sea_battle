@@ -1,0 +1,618 @@
+{% extends "base.html" %}
+
+{% block style %}
+    <style>
+        table {
+            padding: 0;
+            margin: 0;
+            border-collapse: collapse;
+        }
+        td {
+            border: 1px solid black;
+            text-align: center;
+        }
+        p {
+            margin: 7px 0;
+        }
+        a {
+            color: firebrick;
+            text-decoration: none;
+        }
+        a:hover {
+            color: darkgoldenrod;
+        }
+        .hidden {
+            display: none;
+        }
+        .content_block {
+            position: absolute;
+            left: 50%;
+            top: 140px;
+            margin-left: -300px;
+        }
+        .enemy_block {
+            width: 280px;
+            position: absolute;
+            left: 10px;
+        }
+        .player_block {
+            width: 280px;
+            position: absolute;
+            left: 310px;
+        }
+        .move_button_block {
+            position: absolute;
+            left: 48px;
+            margin-top: 35px;
+        }
+        .scroll_block {
+            width: 600px;
+            position: absolute;
+            top: 400px;
+        }
+        .field_title {
+            position: absolute;
+            left: 15px;
+            z-index: 500;
+        }
+        .field_bg {
+            position: absolute;
+            top: 40px;
+            z-index: 400;
+        }
+        .enemy_field {
+            position: absolute;
+            left: 24px;
+            top: 65px;
+            z-index: 500;
+        }
+        .player_field {
+            position: absolute;
+            left: 21px;
+            top: 63px;
+            cursor: default;
+            z-index: 500;
+        }
+        .player_info {
+            position: absolute;
+            right: 5px;
+            margin-top: 325px;
+            font-family: Century, serif;
+            cursor: default;
+        }
+        .first_column {
+            padding-right: 3px;
+            border: none;
+            font-weight: bold;
+            cursor: default;
+        }
+        .radio {
+            display: none;
+        }
+        label {
+            display: block;
+            vertical-align: top;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        .label_miss:after {
+            content: '\2022';
+            display: block;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        .label_hit:after {
+            content: "\1F525";
+            display: block;
+            width: 20px;
+            height: 20px;
+            font-size: 13px;
+            background: goldenrod;
+            cursor: pointer;
+        }
+        .label_ship:after {
+            content: " ";
+            display: block;
+            width: 20px;
+            height: 20px;
+            font-size: 13px;
+            background: black;
+            cursor: pointer;
+        }
+        .label_killed:after {
+            content: "\2716";
+            display: block;
+            width: 20px;
+            height: 20px;
+            font-size: 13px;
+            background: firebrick;
+            cursor: pointer;
+        }
+        .radio:checked + label {
+            content: url("/static/icon.aim.png");
+            background: #e6e6ff;
+        }
+        .radio:enabled + label:hover {
+            background: #e6e6ff;
+        }
+        .radio:checked + label:hover {
+            background: none;
+        }
+        .radio:disabled + label,
+        .radio:disabled + .label_hit:after,
+        .radio:disabled + .label_miss:after,
+        .radio:disabled + .label_killed:after {
+            cursor: default;
+        }
+        .move_button {
+            width: 130px;
+            padding-top: 3px;
+            border: 1px solid black;
+            border-radius: 5px;
+            background: #8B0000;
+            cursor: pointer;
+            z-index: 700;
+        }
+        .enemy_ships_info {
+            position: absolute;
+            left: 77px;
+            top: 55px;
+            z-index: 500;
+            cursor: default;
+        }
+        .description_td {
+            width: 18px;
+            border-color: #e6c98c;
+            background: black;
+        }
+        .combo_points_block {
+            position: absolute;
+            left: 250px;
+            top: 57px;
+            text-align: center;
+            cursor: default;
+            z-index: 500;
+        }
+        .info {
+            width: 170px;
+            height: 105px;
+            position: absolute;
+            padding: 4px 6px;
+            margin-left: 120px;
+            border: 1px solid black;
+            border-radius: 5px;
+            text-align: justify;
+            font-size: 12px;
+            color: white;
+            background: rgba(0, 0, 0, 0.7);
+        }
+        .info_td {
+            border: none;
+            text-align: left;
+        }
+        .moves_block {
+            width: 145px;
+            position: absolute;
+            left: 387px;
+            top: 55px;
+            cursor: default;
+            z-index: 500;
+        }
+        .moves_info {
+            height: 94px;
+            overflow-y: auto;
+            margin-top: 3px;
+            text-align: left;
+        }
+        .moves_info::-webkit-scrollbar {
+            width: 5px;
+        }
+        .moves_info::-webkit-scrollbar-track {
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        .moves_info::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.4);
+        }
+        .moves_info::-webkit-scrollbar-thumb {
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.6);
+        }
+        .end_game_button {
+            width: 140px;
+            position: absolute;
+            top: 620px;
+            left: 230px;
+            padding-top: 3px;
+            border: 1px solid black;
+            border-radius: 5px;
+            background: #373332;
+            cursor: pointer;
+            z-index: 700;
+        }
+        .shadow {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: rgba(102, 102, 102, 0.5);
+            z-index: 2000;
+        }
+        .end_game_block {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -250px;
+            margin-top: -210px;
+            opacity: 0.9;
+        }
+        .end_game_info {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -200px;
+            margin-top: -130px;
+        }
+        .end_game_buttons_block {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -190px;
+            margin-top: 80px;
+        }
+        .end_game_buttons {
+            width: 180px;
+            position: absolute;
+            padding-top: 3px;
+            border: 1px solid black;
+            border-radius: 5px;
+            background: #373332;
+            cursor: pointer;
+            z-index: 700;
+        }
+        .finished_game_block {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -200px;
+            margin-top: -141px;
+            z-index: 1000;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {% load static %}
+
+    <div class="content_block">
+        <div class="enemy_block">
+            <img class="field_title" src="{% static 'title.enemy_field.png' %}" alt="Enemy Field" width="250px">
+
+            <img class="field_bg" src="{% static 'bg.ship_field.png' %}" alt="" width="280px">
+        </div>
+        <div class="player_block">
+            <img class="field_title" src="{% static 'title.player_field.png' %}" alt="Player Field" width="250px">
+
+            <img class="field_bg" src="{% static 'bg.ship_field.png' %}" alt="" width="280px">
+        </div>
+        <div class="scroll_block">
+            <img src="{% static 'pic.scroll.png' %}" alt="" width="600px" style="position: absolute;">
+        </div>
+    </div>
+
+    <div class="content_block">
+        <div class="enemy_block">
+            <div class="enemy_field">
+                <form method="POST" action="{% url 'game_page' %}">
+                    {% csrf_token %}
+                    <table cellpadding="0" cellspacing="0" border="0">
+                        <thead style="cursor: default;">
+                            <tr>
+                                <th></th>
+                                <th>A</th>
+                                <th>B</th>
+                                <th>C</th>
+                                <th>D</th>
+                                <th>E</th>
+                                <th>F</th>
+                                <th>G</th>
+                                <th>H</th>
+                                <th>I</th>
+                                <th>J</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for title, line in radio_names %}
+                                <tr>
+                                    <td class="first_column">{{ title }}</td>
+                                    {% for name, status in line %}
+                                        <td>
+                                            {% if status == 2 %}
+                                                <input class="radio" id="{{ name }}" type="radio" name="move" value="{{ name }}" disabled>
+                                                <label class="label_miss" for="{{ name }}"></label>
+                                            {% elif status == 3 %}
+                                                <input class="radio" id="{{ name }}" type="radio" name="move" value="{{ name }}" disabled>
+                                                <label class="label_hit" for="{{ name }}"></label>
+                                            {% elif status == 4 %}
+                                                <input class="radio" id="{{ name }}" type="radio" name="move" value="{{ name }}" disabled>
+                                                <label class="label_killed" for="{{ name }}"></label>
+                                            {% else %}
+                                                {% if game_status == 'Lose' %}
+                                                    {% if status == 1 %}
+                                                        <input class="radio" id="{{ name }}" type="radio" name="move" value="{{ name }}">
+                                                        <label class="label_ship" for="{{ name }}"></label>
+                                                    {% else %}
+                                                        <input class="radio" id="{{ name }}" type="radio" name="move" value="{{ name }}">
+                                                        <label class="label" for="{{ name }}"></label>
+                                                    {% endif %}
+                                                {% else %}
+                                                    {% if enemy_turn %}
+                                                        <input class="radio" id="{{ name }}" type="radio" name="move" value="{{ name }}" disabled>
+                                                        <label class="label" for="{{ name }}"></label>
+                                                    {% else %}
+                                                        <input class="radio" id="{{ name }}" type="radio" name="move" value="{{ name }}">
+                                                        <label class="label" for="{{ name }}"></label>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <div class="move_button_block">
+                        {% if enemy_turn %}
+                            <button class="move_button" style="background: rgb(90, 90, 90);">
+                                <img src="{% static 'title.defend.png' %}" alt="Defend" height="29px">
+                            </button>
+                        {% else %}
+                            <button class="move_button">
+                                <img src="{% static 'title.fire.png' %}" alt="Fire" height="29px">
+                            </button>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="player_block">
+            <div class="player_field">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>A</th>
+                            <th>B</th>
+                            <th>C</th>
+                            <th>D</th>
+                            <th>E</th>
+                            <th>F</th>
+                            <th>G</th>
+                            <th>H</th>
+                            <th>I</th>
+                            <th>J</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for title, line in player_ship_field %}
+                            <tr>
+                                <td class="first_column" style="width: 18px; height: 18px;">{{ title }}</td>
+                                {% for elem in line %}
+                                    {% if elem == 1 %}
+                                        <td style="width: 18px; height: 18px; background: black;"></td>
+                                    {% elif elem == 2 %}
+                                        <td style="width: 18px; height: 18px; font-size: 15px;">&bull;</td>
+                                    {% elif elem == 3 %}
+                                        <td style="width: 18px; height: 18px; font-size: 13px; background: goldenrod;">&#128293;</td>
+                                    {% elif elem == 4 %}
+                                        <td style="width: 18px; height: 18px; font-size: 13px; background: firebrick;">&#10006;</td>
+                                    {% else %}
+                                        <td style="width: 18px; height: 18px;"></td>
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="player_info">
+                Play as
+                {% if signed_user %}
+                    <a href="{% url 'account_page' player %}">{{ player }}</a>
+                {% else %}
+                    <span style="color: firebrick;">{{ player }}</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="scroll_block">
+            <div class="enemy_ships_info">
+                <b>Enemy ships left: <span style="font-family: Century, serif;">{{ ships_amount.total }}</span></b><p>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="description_td">&nbsp;</td>
+                            <td class="description_td">&nbsp;</td>
+                            <td class="description_td">&nbsp;</td>
+                            <td class="description_td">&nbsp;</td>
+                            {% if ships_amount.4 == 1  %}
+                                <td style="border: none; text-align: left;">&nbsp;{{ ships_amount.4 }} ship</td>
+                            {% else %}
+                                <td style="border: none; text-align: left;">&nbsp;{{ ships_amount.4 }} ships</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td style="border: none;"></td>
+                            <td class="description_td">&nbsp;</td>
+                            <td class="description_td">&nbsp;</td>
+                            <td class="description_td">&nbsp;</td>
+                            {% if ships_amount.3 == 1  %}
+                                <td style="border: none; text-align: left;">&nbsp;{{ ships_amount.3 }} ship</td>
+                            {% else %}
+                                <td style="border: none; text-align: left;">&nbsp;{{ ships_amount.3 }} ships</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td style="border: none;"></td>
+                            <td style="border: none;"></td>
+                            <td class="description_td">&nbsp;</td>
+                            <td class="description_td">&nbsp;</td>
+                            {% if ships_amount.2 == 1  %}
+                                <td style="border: none; text-align: left;">&nbsp;{{ ships_amount.2 }} ship</td>
+                            {% else %}
+                                <td style="border: none; text-align: left;">&nbsp;{{ ships_amount.2 }} ships</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td style="border: none;"></td>
+                            <td style="border: none;"></td>
+                            <td style="border: none;"></td>
+                            <td class="description_td">&nbsp;</td>
+                            {% if ships_amount.1 == 1  %}
+                                <td style="border: none; text-align: left;">&nbsp;{{ ships_amount.1 }} ship</td>
+                            {% else %}
+                                <td style="border: none; text-align: left;">&nbsp;{{ ships_amount.1 }} ships</td>
+                            {% endif %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="moves_block">
+                <b>Moves amount: <span style="font-family: Century, serif;">{{ moves }}</span></b>
+                <div id="messages" class="moves_info">
+                    {% for mes, status in message %}
+                        {% if status == '1' %}
+                            <p style="margin: 0 0 5px 0;">
+                            <span style="padding-right: 7px; color: darkred;">Player:</span>
+                            {{ mes }}
+                        {% else %}
+                            <p style="margin: 0 0 4px 0;">
+                            <span style="padding-right: 1px; color: dimgrey;">Enemy:</span>
+                            {{ mes }}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <script>
+                messages.scrollTop = messages.scrollHeight;
+            </script>
+
+            <div class="combo_points_block">
+                <div style="position: absolute; margin-left: 100px; margin-top: 1px;">
+                    <button onclick="ShowInfo()" style="width: 15px; border: none; padding: 0; background: none; cursor: pointer;">
+                        <img src="{% static 'icon.i.png' %}" alt="Inf." height="15px">
+                    </button>
+                </div>
+
+                <a onclick="ShowInfo()">
+                    <div class="hidden" id="info">
+                        Combo points are given for hitting enemy ships in a row according to the next scheme:<p>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="info_td">1-st hit in a row:</td>
+                                    <td class="info_td">+5 points,</td>
+                                </tr>
+                                <tr>
+                                    <td class="info_td">2-nd hit in a row:</td>
+                                    <td class="info_td">+15 points,</td>
+                                </tr>
+                                <tr>
+                                    <td class="info_td">3-rd hit in a row:</td>
+                                    <td class="info_td">+30 points,</td>
+                                </tr>
+                                <tr>
+                                    <td class="info_td">4-th hit in a row:</td>
+                                    <td class="info_td">+50 points, etc.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+{#                        1st hit in a row: &nbsp;&nbsp;&nbsp;+5 points,<br>#}
+{#                        2nd hit in a row: &nbsp;+15 points,<br>#}
+{#                        3rd hit in a row: &nbsp;&nbsp;+30 points,<br>#}
+{#                        4th hit in a row: +50 points, etc.<br>#}
+                    </div>
+                </a>
+
+                <script>
+                    function ShowInfo() {
+                           const field = document.querySelector('#info');
+                        field.classList.toggle('hidden');
+                        field.classList.toggle('info');
+                        setTimeout(() => {field.className = "hidden";}, 10000)
+                    }
+                </script>
+
+                <b>Combo points</b><br>
+                <div style="padding-top: 25px; font-family: Century, serif; font-size: 30px; font-weight: bold">
+                    {{ points }}
+                </div>
+            </div>
+        </div>
+
+        <button class="end_game_button" onclick="EndGame()">
+            <img src="{% static 'title.end_game.png' %}" alt="End Game" height="25px">
+        </button>
+
+        <script>
+            function EndGame() {
+                const quit_game = document.querySelector("#end_game");
+                quit_game.className = "shadow";
+            }
+        </script>
+    </div>
+
+    <div class="hidden" id="end_game">
+        <div class="end_game_block">
+            <img src="{% static 'bg.info.png' %}" alt="" width="500px">
+
+            <img class="end_game_info" src="{% static 'title.info_2.png' %}" alt="" width="400px">
+
+            <div class="end_game_buttons_block">
+                <form method="POST" action="{% url 'game_page' %}">
+                    {% csrf_token %}
+                    <button class="end_game_buttons" name="end_game" value="end_game">
+                        <img src="{% static 'title.end_game.png' %}" alt="End Game" height="35px">
+                    </button>
+                </form>
+
+                <button class="end_game_buttons" onclick="ContinueGame()" style="left: 200px;">
+                    <img src="{% static 'title.continue.png' %}" alt="Continue" height="35px">
+                </button>
+
+                <script>
+                    function ContinueGame() {
+                        const quit_game = document.querySelector("#end_game");
+                        quit_game.className = "hidden";
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+
+    {% if game_status == 'Lose' %}
+        <div class="shadow">
+            <div class="finished_game_block">
+                <a methods="GET" href="{% url 'home_page' %}">
+                    <img src="{% static 'pic.lose.png' %}" alt="You Lose" width="400px" style="opacity: 0.9;">
+                </a>
+            </div>
+        </div>
+    {% elif game_status == 'Win' %}
+        <div class="shadow">
+            <div class="finished_game_block">
+                <a methods="GET" href="{% url 'home_page' %}">
+                    <img src="{% static 'pic.win.png' %}" alt="You Win" width="400px" style="opacity: 0.9;">
+                </a>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

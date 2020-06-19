@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block style %}
+    <style>
+        .img_404 {
+            width: 600px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -300px;
+            margin-top: -360px;
+        }
+        .home_button {
+            width: 180px;
+            height: 40px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            padding-top: 4px;
+            margin-left: -90px;
+            margin-top: 140px;
+            border: 2px solid #431E00;
+            border-radius: 7px;
+            font-size: 27px;
+            font-weight: bold;
+            color: #431E00;
+            background: #EFCFA2;
+            cursor: pointer;
+        }
+        .arrow {
+            display: none;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {% load static %}
+
+    <div class="main_block">
+        <img class="img_404" src="{% static 'pic.404.png' %}" alt="404 ERROR">
+
+        <form method="GET" action="{% url 'home_page' %}">
+            <button class="home_button">GO HOME</button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,7 @@
+from .test_classes import SeaBattleProfilePageClassesTestCase
+from .test_converting import SeaBattleConvertingFuncsTestCase
+from .test_enemy_attack import SeaBattleEnemyAttackTestCase
+from .test_generation import SeaBattleGenerationFuncsTestCase
+from .test_other_funcs import SeaBattleOtherFuncsTestCase
+from .test_searching import SeaBattleSearchingFuncsTestCase
+from .test_validation import SeaBattleValidationFuncsTestCase

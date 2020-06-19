@@ -1,0 +1,297 @@
+{% extends "base_with_sign.html" %}
+
+{% block style %}
+    <style>
+        table {
+            padding: 0;
+            margin: 0;
+            border-collapse: collapse;
+        }
+        td {
+            border: 1px solid black;
+        }
+        .ship_field_td:first-child {
+            padding-right: 1px;
+            border: none;
+            text-align: center;
+            font-weight: bold;
+        }
+        .ship_field_td {
+            width: 22px;
+            height: 22px;
+        }
+        .ship_info_td {
+            width: 18px;
+            height: 18px;
+            border-color: #e4d3b9;
+            background: black;
+        }
+        .arrow {
+            position: absolute;
+            left: 50%;
+            top: 50px;
+            margin-left: -290px;
+            z-index: 1000;
+        }
+        #message_block {
+            width: calc(100% - 30px);
+            position: absolute;
+            left: 15px;
+            margin-top: 122px;
+            text-align: center;
+            font-family: "Palatino Linotype", serif;
+            background: white;
+            opacity: 0.8;
+            cursor: default;
+            z-index: 2000;
+        }
+        .messages {
+            list-style-type: none;
+        }
+        .messages li.success {
+            color: seagreen;
+        }
+        .messages li.info {
+            color: darkgoldenrod;
+        }
+        .messages li.error {
+            color: firebrick;
+        }
+        .hidden {
+            display: none;
+        }
+        .content_block {
+            width: 660px;
+            position: absolute;
+            left: 50%;
+            top: 200px;
+            margin-left: -330px;
+        }
+        .ship_field_block {
+            position: absolute;
+            left: 0;
+            top: 0;
+            margin-left: 19px;
+            margin-top: 23px;
+            z-index: 600;
+        }
+        .checkbox {
+            display: none;
+        }
+        .checkbox_label:before {
+            content: " ";
+            display: inline-block;
+            vertical-align: top;
+            width: 22px;
+            height: 22px;
+            color: white;
+            cursor: pointer;
+        }
+        .checkbox:checked + .checkbox_label:before {
+            background: black;
+        }
+        .information_block_1 {
+            position: absolute;
+            top: 5px;
+            right: 0;
+            text-align: justify;
+            font-family: "Palatino Linotype", serif;
+            font-size: 15px;
+            cursor: default;
+        }
+        .button_block {
+            position: absolute;
+            top: 0;
+            margin-left: 329px;
+            margin-top: 190px;
+            z-index: 1000;
+        }
+        .button {
+            display: block;
+            vertical-align: bottom;
+            width: 126px;
+            padding: 2px 0 0 0;
+            border: 1px solid black;
+            border-radius: 5px;
+            background: dimgray;
+            cursor: pointer;
+        }
+        .rules_bg {
+            position: absolute;
+            left: 50%;
+            margin-left: -300px;
+            margin-top: 540px;
+        }
+        .rules_block {
+            width: 530px;
+            position: absolute;
+            left: 50%;
+            top: 560px;
+            margin-left: -265px;
+            text-align: justify;
+            font-family: "Palatino Linotype", serif;
+            font-size: 13px;
+            cursor: default;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {% load static %}
+
+    <a class="arrow" methods="GET" href="{% url 'home_page' %}">
+        <img src="{% static 'icon.arrow.png' %}" alt="Go Home" width="80px">
+    </a>
+
+    {% if messages %}
+        <div id="message_block">
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <script>
+        function hide_message() {
+            const message = document.querySelector("#message_block");
+            message.classList.add("hidden");
+        }
+        setTimeout(() => hide_message(), 3000)
+    </script>
+
+    <div class="content_block">
+        <img src="{% static 'bg.ship_field.png' %}" alt="" width="300px">
+
+        <div class="ship_field_block">
+            <form method="POST" action="{% url 'preparation_page' %}">
+                {% csrf_token %}
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>A</th>
+                            <th>B</th>
+                            <th>C</th>
+                            <th>D</th>
+                            <th>E</th>
+                            <th>F</th>
+                            <th>G</th>
+                            <th>H</th>
+                            <th>I</th>
+                            <th>J</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for title, line in checkboxes_names %}
+                            <tr>
+                                <td class="ship_field_td">{{ title }}</td>
+                                {% for name, status in line %}
+                                    <td class="ship_field_td">
+                                        {% if status == '1' %}
+                                            <input class="checkbox" id={{ name }} type="checkbox" name={{ name }} value="1" checked>
+                                            <label class="checkbox_label" for={{ name }}></label>
+                                        {% else %}
+                                            <input class="checkbox" id={{ name }} type="checkbox" name={{ name }} value="1">
+                                            <label class="checkbox_label" for={{ name }}></label>
+                                        {% endif %}
+                                    </td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <div class="button_block" style="padding-top: 43px;">
+                    <button class="button" style="width: 260px; height: 40px; background: #373332;">
+                        <img src="{% static 'title.start_game.png' %}" alt="Start Game" height="28px">
+                    </button>
+                </div>
+
+                <div class="button_block">
+                    <button class="button" name="get_random_field" value="true">
+                        <img src="{% static 'title.random.png' %}" alt="Random Field" height="30px">
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="information_block_1">
+            <div style="width: 351px;">
+                You need to place 10 ships on the grid according
+                to its size. Each ship must be placed horizontally
+                or vertically and they mustn't overlap.
+                <p>Ship types:
+            </div>
+        </div>
+
+        <div class="information_block_1" style="margin-top: 100px; margin-right: 70px; font-size: 14px;">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="ship_info_td">&nbsp;</td>
+                        <td class="ship_info_td">&nbsp;</td>
+                        <td class="ship_info_td">&nbsp;</td>
+                        <td class="ship_info_td">&nbsp;</td>
+                        <td style="padding-left: 10px; border: none;">1 four-decker</td>
+                    </tr>
+                    <tr>
+                        <td style="border: none;"></td>
+                        <td class="ship_info_td">&nbsp;</td>
+                        <td class="ship_info_td">&nbsp;</td>
+                        <td class="ship_info_td">&nbsp;</td>
+                        <td style="padding-left: 10px; border: none;">2 three-deckers</td>
+                    </tr>
+                    <tr>
+                        <td style="border: none;"></td>
+                        <td style="border: none;"></td>
+                        <td class="ship_info_td">&nbsp;</td>
+                        <td class="ship_info_td">&nbsp;</td>
+                        <td style="padding-left: 10px; border: none;">3 two-deckers</td>
+                    </tr>
+                    <tr>
+                        <td style="border: none;"></td>
+                        <td style="border: none;"></td>
+                        <td style="border: none;"></td>
+                        <td class="ship_info_td">&nbsp;</td>
+                        <td style="padding-left: 10px; border: none;">4 one-deckers</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="button_block" style="margin-left: 482px; margin-top: 213px;">
+            <form method="GET">
+                <button class="button">
+                    <img src="{% static 'title.clear.png' %}" alt="Clear" height="30px">
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <img class="rules_bg" src="{% static 'bg.rules.png' %}" alt="" width="600px">
+
+    <div class="rules_block">
+        Player goes first. Player should choose a position on enemy field (e.g. G-6) and press
+        <span style="padding: 0 5px; border: 1px solid black; border-radius: 5px; color: white; background: darkred;">Fire</span>
+        button.<p>
+
+        After player has made the move, on the right side of the scroll appears information with the
+        results of the move: "Hit", "Miss" or "Sunk" depending upon whether one of enemy ships is
+        in the position called out. On the left side of the scroll shows information with types and
+        numbers of remaining enemy ships. In the middle of the scroll shows combo points, which
+        gives for "hit" or "sunk" moves in a row (e.g. two hits add 5 combo points, three hits add 15
+        combo points, four hits add 30 combo points, five hits add 50 points, etc.).</p>
+
+        If the shot is a "Hit", player goes again. When player hit all of the spaces for particular ship,
+        this ship called "Sunk" and player goes again too. When player shot is a "Miss", enemy starts
+        his turn. For the enemy's move player should press
+        <span style="padding: 0 3px; border: 1px solid black; border-radius: 5px; color: white; background: rgb(90, 90, 90);">Defend</span>
+        button.<p>
+
+        Once a player has sunk all the enemy ships, he is declared the winner.
+    </div>
+{% endblock %}

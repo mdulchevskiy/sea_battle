@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sea Battle</title>
+    {% load static %}
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+    <style>
+        html {
+            height: 100%;
+        }
+        body {
+            overflow: auto;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        a {
+            color: black;
+            text-decoration: none;
+        }
+        a:hover {
+            color: darkgoldenrod;
+        }
+        button:active, button:focus {
+            outline: none;
+        }
+        button::-moz-focus-inner {
+            border: 1px solid white;
+        }
+        .main_block {
+            width: 100vw;
+            height: 100%;
+            min-width: 740px;
+            min-height: 880px;
+            position: absolute;
+            background: #e4d3b9;
+        }
+        .sign_block {
+            position: absolute;
+            right: 60px;
+            top: 40px;
+            background: rgba(0, 0, 0, 0);
+            z-index: 1000;
+        }
+        .sign_button {
+            display: block;
+            vertical-align: bottom;
+            padding: 0;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+        .sign_button:active, .sign_button:focus {
+            outline: none;
+        }
+        .sign_button::-moz-focus-inner {
+            border: 0;
+        }
+    </style>
+    {% block style %}{% endblock %}
+</head>
+<body style="visibility: hidden"
+      onload="setTimeout ('document.body.style.visibility = \'visible\'', 0)">
+    {%  load static %}
+
+    <div class="main_block">
+        <div style="position: absolute; left: 0; top: 0; z-index: 300;">
+            <img src="{% static 'border_1_1.png' %}" alt="" width="140px">
+        </div>
+        <div style="position: absolute; right: 0; top: 0; z-index: 300;">
+            <img src="{% static 'border_1_2.png' %}" alt="" width="140px">
+        </div>
+        <div style="position: absolute; right: 0; bottom: 0; z-index: 300;">
+            <img src="{% static 'border_1_3.png' %}" alt="" width="140px">
+        </div>
+        <div style="position: absolute; left: 0; bottom: 0; z-index: 300;">
+            <img src="{% static 'border_1_4.png' %}" alt="" width="140px">
+        </div>
+
+        <div style="position: absolute; left: 5%; top: 0; z-index: 200; width: 90%;">
+           <img src="{% static 'border_2_1.png' %}" alt="" height="24px"width="100%">
+        </div>
+        <div style="position: absolute; right: 0; top: 5%; z-index: 100; height: 90%;">
+            <img src="{% static 'border_2_4.png' %}" alt="" height="100%" width="24px">
+        </div>
+        <div style="position: absolute; left: 5%; bottom: 0; z-index: 200; width: 90%;">
+            <img src="{% static 'border_2_2.png' %}" alt="" height="24px" width="100%">
+        </div>
+        <div style="position: absolute; left: 0; top: 5%; z-index: 100; height: 90%;">
+            <img src="{% static 'border_2_3.png' %}" alt="" width="24px" height="100%">
+        </div>
+
+        <div class="sign_block">
+            {% if signed_user %}
+                <div style="text-indent: 7px;">
+                    <img src="{% static 'icon.profile.png' %}" alt="" width="13px">
+                    <a href="{% url 'account_page' signed_user.username %}">{{ signed_user.username }}</a>
+                </div>
+                <form method="POST">
+                    {% csrf_token %}
+                    <button class="sign_button" formaction="{% url 'home_page' %}" name="sign_out" value="1">
+                        <img src="{% static 'but.sign_out.png' %}" alt="Sign Out" width="130px" >
+                    </button>
+                </form>
+            {% else %}
+                <form method="GET">
+                    <button class="sign_button" formaction="{% url 'sign_in' %}" style="margin-top: 18px;">
+                        <img src="{% static 'but.sign_in.png' %}" alt="Sign In" width="130px" >
+                    </button>
+               </form>
+            {% endif %}
+        </div>
+
+        {% block body %}{% endblock %}
+    </div>
+</body>
+</html>

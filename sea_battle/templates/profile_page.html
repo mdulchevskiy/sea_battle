@@ -1,0 +1,583 @@
+{% extends "base.html" %}
+
+{% block style %}
+    <style>
+        a {
+            color: #000;
+            text-decoration: none;
+        }
+        a:hover {
+            color: white;
+        }
+        p {
+            margin: 5px;
+        }
+        .bg_account {
+            position: absolute;
+            left: 50%;
+            top: 100px;
+            margin-left: -300px;
+        }
+        .account_block {
+            position: absolute;
+            left: 50%;
+            top: 120px;
+            margin-left: -255px;
+            font-family: 'Century Gothic', serif;
+            cursor: default;
+        }
+        .profile_info_block {
+            height: 160px;
+            margin-top: 13px;
+        }
+        .message_block {
+            position: absolute;
+            left: 153px;
+            top: 221px;
+            padding: 2px 5px;
+            margin: -23px 0 0 10px;
+            border-radius: 3px;
+            font-family: 'Courier New', serif;
+            font-size: 10px;
+            color: white;
+            background: rgba(128, 0, 0, 0.8);
+            cursor: default;
+            z-index: 1000;
+        }
+        .hidden {
+            display: none;
+        }
+        .edit_pic_button {
+            width: 30px;
+            height: 17px;
+            position: absolute;
+            left: 117px;
+            top: 221px;
+            padding: 0;
+            margin-top: -23px;
+            border: 1px solid black;
+            border-radius: 3px;
+            font-size: 10px;
+            color: white;
+            background: rgba(0, 0, 0, 0.6);
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .small_upload_block {
+            width: 133px;
+            height: 25px;
+            position: absolute;
+            left: 153px;
+            top: 221px;
+            margin-top: -23px;
+            border-left: 1px solid black;
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+            border-radius: 3px 0 3px 3px;
+            background: rgba(0, 0, 0, 0.5);
+            cursor: default;
+            z-index: 1000;
+        }
+        .small_upload_block:before {
+            content: "";
+            width: 3px;
+            height: 8px;
+            position: absolute;
+            margin-left: 129px;
+            margin-top: 17px;
+            border-right: 1px solid black;
+            border-radius: 3px 0 3px 3px;
+        }
+        .big_upload_block {
+            width: 133px;
+            height: 45px;
+            position: absolute;
+            left: 153px;
+            top: 221px;
+            margin-top: -23px;
+            border-left: 1px solid black;
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+            border-radius: 3px 0 3px 3px;
+            background: rgba(0, 0, 0, 0.5);
+            cursor: default;
+            z-index: 1000;
+        }
+        .big_upload_block:before {
+            content: "";
+            width: 3px;
+            height: 28px;
+            position: absolute;
+            margin-left: 129px;
+            margin-top: 17px;
+            border-right: 1px solid black;
+            border-radius: 3px 0 3px 3px;
+        }
+        .image_field {
+            display: none;
+        }
+        .label_for_image_input {
+            width: 30px;
+            height: 17px;
+            padding: 1px 3px 2px 3px;
+            margin-left: 3px;
+            border: 1px solid black;
+            border-radius: 3px;
+            font-size: 10px;
+            color: white;
+            background: rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+        }
+        .upload_button {
+            width: 41px;
+            height: 17px;
+            padding: 0;
+            border: 1px solid black;
+            border-radius: 3px;
+            font-size: 10px;
+            color: limegreen;
+            background: rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+        }
+        .remove_button {
+            width: 126px;
+            height: 17px;
+            padding: 0;
+            margin-left: 3px;
+            border: 1px solid black;
+            border-radius: 3px;
+            font-size: 10px;
+            color: red;
+            background: rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+        }
+        .close_button_block {
+            display: inline-flex;
+            justify-content: center;
+            width: 13px;
+            height: 15px;
+            position: absolute;
+            left: 287px;
+            top: 221px;
+            padding-bottom: 2px;
+            margin-top: -23px;
+            border: 1px solid black;
+            border-left: none;
+            border-radius: 0 3px 3px 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        .close_button {
+            width: 15px;
+            padding: 0;
+            margin-right: 2px;
+            border: none;
+            font-size: 12px;
+            font-weight: bold;
+            background: none;
+            cursor: pointer;
+        }
+        .close_button:active, .close_button:focus {
+            outline: none;
+        }
+        .close_button::-moz-focus-inner {
+            border: 0;
+        }
+        .user_info_block {
+            position: absolute;
+            margin-left: 157px;
+            top: 221px;
+            margin-top: -158px;
+            font-size: 13px;
+        }
+        .edit_profile_button {
+            width: 80px;
+            height: 17px;
+            position: absolute;
+            left: 163px;
+            top: 221px;
+            margin-top: -44px;
+            border: 1px solid black;
+            border-radius: 3px;
+            font-size: 10px;
+            color: white;
+            background: rgba(0, 0, 0, 0.6);
+            cursor: pointer;
+        }
+        .edit_profile_block {
+            position: absolute;
+            left: 201px;
+            top: 221px;
+            margin-top: -155px;
+            font-family: 'Century Gothic', serif;
+        }
+        .edit_profile_form {
+            padding-left: 2px;
+            padding-bottom: 1px;
+            border: 1px solid black;
+            font-family:  "Century Gothic", serif;
+            font-size: 13px;
+        }
+        .edit_profile_buttons {
+            width: 80px;
+            height: 17px;
+            position: absolute;
+            margin-left: -38px;
+            margin-top: 27px;
+            border: 1px solid black;
+            border-radius: 3px;
+            font-size: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            cursor: pointer;
+        }
+        .info_title {
+            margin-top: 5px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .information {
+            padding-top: 5px;
+            margin-top: 5px;
+            font-size: 13px;
+            background: rgba(192, 192, 192, 0.3);
+        }
+        .battle_table {
+            margin-left: 9px;
+            border-collapse: collapse;
+        }
+        .tr_for_battle_table {
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {% load static %}
+    {% load humanize %}
+
+    <img class="bg_account" src="{% static 'bg.account.png' %}" alt="" width="600px">
+
+    <div class="account_block">
+        <div>
+            <table cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td style="width: 240px; text-align: left;">
+                            <span style="font-weight: bold; font-size: 30px;">
+                                {{ user_game_info.username }}
+                            </span>
+                        </td>
+                        <td style="width: 270px; text-align: right;">
+                            <span style="font-weight: bold; font-size: 25px;">
+                                RANK {{ user_game_info.rank }}
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="font-size: 13px;">id: {{ user_game_info.id }}</div>
+
+        <div class="profile_info_block">
+            {% if user_game_info.pic_exist %}
+                <img src="{{ user_game_info.profile_pic.url }}" alt="Profile pic" width="150px" style="margin-top: 3px;">
+            {% else %}
+                <img src="{% static 'pic.profile.png' %}" alt="Profile pic" width="150px" style="margin-top: 3px;">
+            {% endif %}
+
+            {% if message %}
+                <div class="message_block" id="message">
+                    {{ message }}
+                </div>
+            {% endif %}
+
+            <script>
+                function hide_edit_message() {
+                    const edit_message = document.querySelector("#message");
+                    edit_message.classList.add("hidden");
+                }
+                setTimeout(() => hide_edit_message(), 4000)
+            </script>
+
+            {% if editable_page_flag %}
+                <div id="user_info_view_mode">
+                    <div class="user_info_block">
+                        <p><b>First name: </b><span style="padding-left: 1px;">{{ user_game_info.first_name }}</span>
+                        <p><b>Last name: </b>{{ user_game_info.last_name }}
+                        <p><b>Email: </b><span style="padding-left: 1px;">{{ user_game_info.email }}</span>
+                        <p><b>Phone number: </b><span style="padding-left: 3px;">{{ user_game_info.phone_number }}</span>
+                        <p><b>Registration date: </b>{{ user_game_info.date }}
+                    </div>
+
+                    <button class="edit_profile_button" onclick="EditUserInfo()">
+                        Edit profile
+                    </button>
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        <button class="edit_profile_button" name="send_mail" value="1" style="width: 100px; margin-left: 85px;">
+                            Send stat. to mail
+                        </button>
+                    </form>
+                </div>
+
+                <div class="hidden" id="user_info_edit_mode">
+                    <div class="user_info_block" style="margin-left: 162px;">
+                        {% for field in user_info_form %}
+                            <div style="margin-top: 5px;"><b>{{ field.label_tag }} </b><br></div>
+                        {% endfor %}
+                        <div style="margin-top: 5px;"><b>Registration date: </b>{{ user_game_info.date }}</div>
+                    </div>
+
+                    <div class="edit_profile_block">
+                        <form method="POST" novalidate>
+                            {% csrf_token %}
+                            <table cellpadding="0" cellspacing="0" border="0">
+                                <tbody>
+                                    {% for field in user_info_form %}
+                                        <tr>
+                                            <td></td>
+                                            <td style="text-align: right;">
+                                                {{ field }}
+                                            </td>
+                                            {% if field.errors %}
+                                                {% for error in field.errors %}
+                                                    <td style="padding-left: 5px; font-size: 13px; color: red;">
+                                                        {{ error }}
+                                                    </td>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                            <button class="edit_profile_buttons" name="save_info" value="1" style="color: white;">
+                                Save
+                            </button>
+
+                            {% if invalid_field_flag %}
+                                 <button class="edit_profile_buttons" style="margin-left: 47px; color: white;">
+                                    Cancel
+                                </button>
+                            {% endif %}
+                        </form>
+
+                        {% if not invalid_field_flag %}
+                            <button class="edit_profile_buttons" onclick="CancelEditing()" style="margin-left: 47px; color: white;">
+                                Cancel
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if invalid_field_flag %}
+                    <script>
+                        document.querySelector("#user_info_view_mode").className = "hidden";
+                        document.getElementById("user_info_edit_mode").classList.remove("hidden");
+                    </script>
+                {% endif %}
+
+                <script>
+                    function EditUserInfo() {
+                        document.querySelector("#user_info_view_mode").className = "hidden";
+                        document.getElementById("user_info_edit_mode").classList.remove("hidden");
+                    }
+                </script>
+
+                <script>
+                    function CancelEditing() {
+                        document.querySelector("#user_info_edit_mode").className = "hidden";
+                        document.getElementById("user_info_view_mode").classList.remove("hidden");
+                    }
+                </script>
+
+                <button class="edit_pic_button" onclick="EditPic()">Edit</button>
+
+                {% if user_game_info.pic_exist %}
+                    <div class="hidden" id="big_upload_block">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ upload_form.upload }}
+                            <label class="label_for_image_input" for="image_field">Choose Image</label>
+                            <button class="upload_button" name="upload_pic" value="1">Upload</button><br>
+                            <button class="remove_button" name="remove_pic" value="1">Remove Image</button>
+                        </form>
+                    </div>
+                {% else %}
+                    <div class="hidden" id="small_upload_block">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ upload_form.upload }}
+                            <label class="label_for_image_input" for="image_field">Choose Image</label>
+                            <button class="upload_button" name="upload_pic" value="1">Upload</button><br>
+                        </form>
+                    </div>
+                {% endif %}
+
+                <div class="hidden" id="close">
+                    <button class="close_button" onclick="Close()">x</button>
+                </div>
+
+                <script>
+                    function EditPic() {
+                        if (document.getElementById("small_upload_block")) {
+                            document.querySelector("#small_upload_block").className = "small_upload_block";
+                        }
+                        if (document.getElementById("big_upload_block")) {
+                            document.querySelector("#big_upload_block").className = "big_upload_block";
+                        }
+                        if (document.getElementById("message")) {
+                            document.getElementById("message").style.display = "none";
+                        }
+                        document.querySelector("#close").className = "close_button_block";
+                    }
+                </script>
+
+                <script>
+                    function Close() {
+                        if (document.getElementById("small_upload_block")) {
+                            document.querySelector("#small_upload_block").className = "hidden";
+                        }
+                        if (document.getElementById("big_upload_block")) {
+                            document.querySelector("#big_upload_block").className = "hidden";
+                        }
+                        document.querySelector("#close").className = "hidden";
+                    }
+                </script>
+            {% endif %}
+        </div>
+
+        <div class="info_title">SUMMARY</div>
+
+        <div class="information">
+            <table cellpadding="0" cellspacing="0">
+                <tbody style="text-align: center;">
+                    <tr style="font-size: 25px;">
+                        <td style="width: 170px;">{{ user_game_info.battles }}</td>
+                        <td style="width: 170px;">{{ user_game_info.victories_pct_first_format }}</td>
+                        <td style="width: 170px;">{{ user_game_info.accuracy_first_format }}</td>
+                    </tr>
+                    <tr style="font-size: 10px;">
+                        <td>Battles played</td>
+                        <td>Victories</td>
+                        <td>Accuracy ratio</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="information" style="padding: 20px 0 10px 0; margin-top: 0;">
+            <table cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td style="width: 130px;"></td>
+                        <td style="width: 160px; text-align: left;">Battles played</td>
+                        <td style="width: 40px; text-align: right;"></td>
+                        <td style="width: 50px; text-align: right;">{{ user_game_info.battles }}</td>
+                        <td style="width: 130px;"></td>
+                    </tr>
+                    <tr style="font-size: 10px;">
+                        <td></td>
+                        <td style="padding-left: 30px; text-align: left;">Victories</td>
+                        <td style="text-align: right;">{{ user_game_info.victories_pct_second_format }}</td>
+                        <td style="text-align: right;">{{ user_game_info.victories }}</td>
+                        <td></td>
+                    </tr>
+                    <tr style="font-size: 10px;">
+                        <td></td>
+                        <td style="padding-left: 30px; text-align: left;">Defeats</td>
+                        <td style="text-align: right;">{{ user_game_info.defeats_pct }}</td>
+                        <td style="text-align: right;">{{ user_game_info.defeats }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="text-align: left;">Warship destroyed</td>
+                        <td style="text-align: right;"></td>
+                        <td style="text-align: right;">{{ user_game_info.destroyed_warships }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="text-align: left;">Accuracy ratio</td>
+                        <td style="text-align: right;"></td>
+                        <td style="text-align: right;">{{ user_game_info.accuracy_second_format }}</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="info_title">BEST RESULTS</div>
+
+        <div class="information" style="padding-bottom: 5px;">
+            <table cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td style="width: 130px;"></td>
+                        <td style="width: 160px; text-align: left;">Best game</td>
+                        <td style="width: 40px; text-align: right;"></td>
+                        <td style="width: 88px; padding-right: 2px; text-align: right;">
+                            {{ user_game_info.best_game }} <span style="font-size: 10px;">POINTS</span>
+                        </td>
+                        <td style="width: 90px;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 130px;"></td>
+                        <td style="width: 160px; text-align: left;">Fastest game</td>
+                        <td style="width: 40px; text-align: right;"></td>
+                        <td style="width: 90px; text-align: right;">
+                            {{ user_game_info.fastest_game }} <span style="font-size: 10px;">MOVES</span>
+                        </td>
+                        <td style="width: 90px;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 130px;"></td>
+                        <td style="width: 160px; text-align: left;">Best accuracy</td>
+                        <td style="width: 40px; text-align: right;"></td>
+                        <td style="width: 50px; padding-right: 39px; text-align: right;">
+                            {{ user_game_info.best_accuracy }}
+                        </td>
+                        <td style="width: 90px;"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        {% if editable_page_flag %}
+            {% if user_game_info.last_five_battles %}
+                <div class="info_title">LAST 5 BATTLES</div>
+
+                <div class="information" style="padding-bottom: 10px;">
+                    <table class="battle_table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Result</th>
+                                <th>Moves</th>
+                                <th>Points</th>
+                                <th>Sunks</th>
+                                <th>Accuracy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for battle in user_game_info.last_five_battles %}
+                                <tr class="tr_for_battle_table">
+                                    <td style="width: 130px;">{{ battle.game_date | date:"d.m.Y H:i" }}</td>
+                                    <td style="width: 68px;">{{ battle.status }}</td>
+                                    <td style="width: 68px;">{{ battle.moves }}</td>
+                                    <td style="width: 68px;">{{ battle.points }}</td>
+                                    <td style="width: 68px;">{{ battle.sunks }}</td>
+                                    <td style="width: 78px;">{{ battle.accuracy | floatformat:2 }}</td>
+                               </tr>
+                            {% endfor %}
+                        </tbody>
+                   </table>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}

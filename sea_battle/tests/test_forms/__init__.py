@@ -1,0 +1,4 @@
+from .test_reg_form import SeaBattleRegFormTestCase
+from .test_sign_in_form import SeaBattleSignInFormTestCase
+from .test_upload_form import SeaBattleUploadFormTestCase
+from .test_user_info_form import SeaBattleUserInfoFormTestCase

@@ -1,0 +1,234 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Email </title>
+</head>
+<body>
+    <table border="0" cellpadding="0" cellspacing="0" style="padding: 0; margin: 0; background-image: url('https://i.yapx.ru/HJi3z.png'); background-repeat: no-repeat;">
+        <tbody>
+            <tr>
+                <td width="240px" align="left" style="padding-left: 45px; padding-top: 27px;">
+                    <span style="font: bold 30px 'Arial';">{{ user_game_info.username }}</span>
+                    <span style="padding-left: 180px; font: bold 25px 'Arial';">RANK {{ user_game_info.rank }}</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-left: 45px; font-size: 13px;">
+                    id: {{ user_game_info.id }}
+                </td>
+            </tr>
+            <tr>
+            <tr>
+                <td style="padding-left: 45px; padding-top: 20px; font-size: 13px;">
+                    <b>First name: </b>{{ user_game_info.first_name }}
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-left: 45px; font-size: 13px;">
+                    <b>Last name: </b>{{ user_game_info.last_name }}
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-left: 45px; font-size: 13px;">
+                    <b>Email: </b>{{ user_game_info.email }}
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-left: 45px; font-size: 13px;">
+                    <b>Phone number: </b>{{ user_game_info.phone_number }}
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-left: 45px; font-size: 13px;">
+                    <b>Registration date: </b>{{ user_game_info.date }}
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 20px 450px 5px 45px; font-size: 20px; font-weight: bold;">
+                    SUMMARY
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-left: 45px;">
+                    <table cellpadding="0" cellspacing="0" border="0" width="510px" style="padding-top: 10px; margin: 0; background: rgba(192, 192, 192, 0.3);">
+                        <tbody align="center">
+                            <tr style="font-size: 25px;">
+                                <td width="175px">{{ user_game_info.battles }}</td>
+                                <td width="170px">{{ user_game_info.victories_pct_first_format }}</td>
+                                <td width="170px">{{ user_game_info.accuracy_first_format }}</td>
+                            </tr>
+                            <tr style="font-size: 10px;">
+                                <td>Battles played</td>
+                                <td>Victories</td>
+                                <td>Accuracy ratio</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table cellpadding="0" cellspacing="0" border="0" width="510px" style="padding-top: 15px; padding-bottom: 10px; margin: 0; background: rgba(192, 192, 192, 0.3);">
+                        <tbody>
+                            <tr style="font-size: 15px;">
+                                <td width="130px"></td>
+                                <td width="160px" align="left">Battles played</td>
+                                <td width="40px" align="right"></td>
+                                <td width="50px" align="right">{{ user_game_info.battles }}</td>
+                                <td width="130px"></td>
+                            </tr>
+                            <tr style="font-size: 11px;">
+                                <td></td>
+                                <td align="left" style="padding-left: 30px;">Victories</td>
+                                <td align="right">{{ user_game_info.victories_pct_second_format }}</td>
+                                <td align="right">{{ user_game_info.victories }}</td>
+                                <td></td>
+                            </tr>
+                            <tr style="font-size: 11px;">
+                                <td></td>
+                                <td align="left" style="padding-left: 30px;">Defeats</td>
+                                <td align="right">{{ user_game_info.defeats_pct }}</td>
+                                <td align="right">{{ user_game_info.defeats }}</td>
+                                <td></td>
+                            </tr>
+                            <tr style="font-size: 15px;">
+                                <td></td>
+                                <td align="left">Warship destroyed</td>
+                                <td align="right"></td>
+                                <td align="right">{{ user_game_info.destroyed_warships }}</td>
+                                <td></td>
+                            </tr>
+                            <tr style="font-size: 15px;">
+                                <td></td>
+                                <td align="left">Accuracy ratio</td>
+                                <td align="right"></td>
+                                <td align="right">{{ user_game_info.accuracy_second_format }}</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table cellpadding="0" cellspacing="0" border="0" style="padding: 0; margin: 0;">
+                        <tbody>
+                            <tr>
+                                <td style="padding-top: 5px; padding-bottom: 5px; font-size: 20px; font-weight: bold;">
+                                    BEST RESULTS
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table cellpadding="0" cellspacing="0" border="0" width="510px" style="padding-top: 10px; padding-bottom: 10px; margin: 0; background: rgba(192, 192, 192, 0.3);">
+                        <tbody>
+                            <tr style="font-size: 15px;">
+                                <td width="130px"></td>
+                                <td width="160px" align="left">Best game</td>
+                                <td width="40px" align="right"></td>
+                                <td width="90px" align="right">
+                                    {{ user_game_info.best_game }} <span style="font-size: 10px;">POINTS</span>
+                                </td>
+                                <td width="90px"></td>
+                            </tr>
+                            <tr style="font-size: 15px;">
+                                <td width="130px"></td>
+                                <td width="160px" align="left">Fastest game</td>
+                                <td width="40px" align="right"></td>
+                                <td width="90px" align="right">
+                                    {{ user_game_info.fastest_game }} <span style="font-size: 10px;">MOVES</span>
+                                </td>
+                                <td width="90px"></td>
+                            </tr>
+                            <tr style="font-size: 15px;">
+                                <td width="130px"></td>
+                                <td width="160px" align="left">Best accuracy</td>
+                                <td width="40px" align="right"></td>
+                                <td width="50px" align="right" style="padding-right: 39px;">
+                                    {{ user_game_info.best_accuracy }}
+                                </td>
+                                <td width="90px"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    {% if user_game_info.last_five_battles %}
+                        <table cellpadding="0" cellspacing="0" border="0" style="padding: 0; margin: 0;">
+                            <tbody>
+                                <tr>
+                                    <td style="padding-top: 5px; padding-bottom: 5px; font-size: 20px; font-weight: bold;">
+                                        LAST 5 BATTLES
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table cellpadding="0" cellspacing="0" width="510px" style="padding: 5px 0; margin: 0; background: rgba(192, 192, 192, 0.3);">
+                            <tbody>
+                                <tr><td width="510px" style="empty-cells: show;"></td></tr>
+                            </tbody>
+                        </table>
+                        <table cellspacing="0" width="510px" style="margin: 0; border-collapse: collapse; background: rgba(192, 192, 192, 0.3);">
+                            <thead>
+                                <tr>
+                                    <th style="font-size: 14px;">Date</th>
+                                    <th style="font-size: 14px;">Result</th>
+                                    <th style="font-size: 14px;">Moves</th>
+                                    <th style="font-size: 14px;">Points</th>
+                                    <th style="font-size: 14px;">Sunks</th>
+                                    <th style="font-size: 14px;">Accuracy</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for battle in user_game_info.last_five_battles %}
+                                    <tr align="center" style="border-top: 1px solid black; border-bottom: 1px solid black; font-size: 13px;">
+                                        <td width="150px">{{ battle.game_date | date:"d.m.Y H:i" }}</td>
+                                        <td width="70px">{{ battle.status }}</td>
+                                        <td width="70px">{{ battle.moves }}</td>
+                                        <td width="70px">{{ battle.points }}</td>
+                                        <td width="70px">{{ battle.sunks }}</td>
+                                        <td width="80px">{{ battle.accuracy | floatformat:2 }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <table cellpadding="0" cellspacing="0" width="510px" style="padding: 5px 0; margin: 0; background: rgba(192, 192, 192, 0.3);">
+                            <tbody>
+                                <tr><td width="510px" style="empty-cells: show;"></td></tr>
+                            </tbody>
+                        </table>
+                        {% if user_game_info.amount_of_last_five_battles == 1 %}
+                            <table cellpadding="0" cellspacing="0" style="padding-top: 118px; margin: 0;">
+                                <tbody>
+                                    <tr><td width="510px" style="empty-cells: show;"></td></tr>
+                                </tbody>
+                            </table>
+                        {% elif user_game_info.amount_of_last_five_battles == 2 %}
+                            <table cellpadding="0" cellspacing="0" style="padding-top: 98px; margin: 0;">
+                                <tbody>
+                                    <tr><td width="510px" style="empty-cells: show;"></td></tr>
+                                </tbody>
+                            </table>
+                        {% elif user_game_info.amount_of_last_five_battles == 3 %}
+                            <table cellpadding="0" cellspacing="0" style="padding-top: 78px; margin: 0;">
+                                <tbody>
+                                    <tr><td width="510px" style="empty-cells: show;"></td></tr>
+                                </tbody>
+                            </table>
+                        {% elif user_game_info.amount_of_last_five_battles == 4 %}
+                            <table cellpadding="0" cellspacing="0" style="padding-top: 58px; margin: 0;">
+                                <tbody>
+                                    <tr><td width="510px" style="empty-cells: show;"></td></tr>
+                                </tbody>
+                            </table>
+                        {% elif user_game_info.amount_of_last_five_battles == 5 %}
+                            <table cellpadding="0" cellspacing="0" style="padding-top: 38px; margin: 0;">
+                                <tbody>
+                                    <tr><td width="510px" style="empty-cells: show;"></td></tr>
+                                </tbody>
+                            </table>
+                        {% endif %}
+                    {% else %}
+                        <table cellpadding="0" cellspacing="0" style="padding-top: 213px; margin: 0;">
+                            <tbody>
+                                <tr><td width="510px" style="empty-cells: show;"></td></tr>
+                            </tbody>
+                        </table>
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

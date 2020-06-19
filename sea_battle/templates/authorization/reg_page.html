@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+
+{% block style %}
+    <style>
+        .hidden {
+            display: none;
+        }
+        .registration_block {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -190px;
+            margin-top: -220px;
+        }
+        .sign_button {
+            width: 180px;
+            height: 30px;
+            display: block;
+            vertical-align: bottom;
+            padding: 0;
+            margin-left: 100px;
+            margin-top: 30px;
+            border-radius: 7px;
+            border: 1px solid black;
+            background: #373332;
+            cursor: pointer;
+        }
+        .info_username {
+            width: 155px;
+            height: 45px;
+            position: absolute;
+            padding: 3px 5px;
+            border: 1px solid black;
+            border-radius: 5px;
+            font-family: "Century Gothic", serif;
+            font-size: 12px;
+            color: white;
+            background: rgba(0, 0, 0, 0.7);
+            cursor: default;
+        }
+        .info_password {
+            width: 150px;
+            height: 60px;
+            position: absolute;
+            padding: 3px 5px;
+            border: 1px solid black;
+            border-radius: 5px;
+            font-family: "Century Gothic", serif;
+            font-size: 12px;
+            color: white;
+            background: rgba(0, 0, 0, 0.7);
+            cursor: default;
+        }
+        .info_phone_num {
+            width: 130px;
+            height: 117px;
+            position: absolute;
+            padding: 3px 5px;
+            border: 1px solid black;
+            border-radius: 5px;
+            font-family: "Century Gothic", serif;
+            font-size: 12px;
+            color: white;
+            background: rgba(0, 0, 0, 0.7);
+            cursor: default;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {% load static %}
+
+    <div class="registration_block" style="margin-left: -235px; margin-top: -270px;">
+        <img src="{% static 'bg.registration.png' %}" width="470px">
+    </div>
+
+    <div class="registration_block">
+        <form method="POST" novalidate>
+            {% csrf_token %}
+            <table>
+                <tbody>
+                    {% for field in form %}
+                        <tr>
+                            <td height="16px"></td>
+                            {% if field.errors %}
+                                {% for error in field.errors %}
+                                    <td height="16px" style="color: red; font-size: 13px;">
+                                        {{ error }}
+                                    </td>
+                                {% endfor %}
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td style="text-align: right; font-size: 17px;">
+                                {{ field.label_tag }}&nbsp;
+                            </td>
+                            <td>
+                                {{ field }}
+                            </td>
+
+                                {% if field.label_tag == '<label for="id_username">Username:</label>' %}
+                                    <td style="padding-top: 4px;">
+                                        <div onclick="ShowInfoUsername()" style="width: 15px; border: none; padding: 0; background: none; cursor: pointer;">
+                                            <img src="{% static 'icon.i.png' %}" alt="Inf." height="15px">
+                                        </div>
+                                    </td>
+                                    <td class="hidden" id="info_username" onclick="ShowInfoUsername()">
+                                        No spaces. Only numbers,<br>
+                                        letters and some allowed<br>
+                                        symbols: "-", ".", "_".<br>
+                                    </td>
+                                {% elif field.label_tag == '<label for="id_password">Password:</label>' %}
+                                    <td style="padding-top: 4px;">
+                                        <div onclick="ShowInfoPassword()" style="width: 15px; border: none; padding: 0; background: none; cursor: pointer;">
+                                            <img src="{% static 'icon.i.png' %}" alt="Inf." height="15px">
+                                        </div>
+                                    </td>
+                                    <td class="hidden" id="info_password" onclick="ShowInfoPassword()">
+                                        Only letters and numbers.<br>
+                                        No spaces, dashes or other symbols.<br>
+                                        Min length - 10 chars.
+                                    </td>
+                                {% elif field.label_tag == '<label for="id_phone_number">Phone number:</label>' %}
+                                    <td style="padding-top: 4px;">
+                                        <div onclick="ShowInfoPhoneNum()" style="width: 15px; border: none; padding: 0; background: none; cursor: pointer;">
+                                            <img src="{% static 'icon.i.png' %}" alt="Inf." height="15px">
+                                        </div>
+                                    </td>
+                                    <td class="hidden" id="info_phone_num" onclick="ShowInfoPhoneNum()">
+                                        Supported patterns:<p>
+                                        +375(XX)XXX-XX-XX<br>
+                                        +375(XX)XXXXXXX<br>
+                                        +375XXXXXXXXX<br>
+                                        8(0XX)XXX-XX-XX<br>
+                                        8(0XX)XXXXXXX<br>
+                                        80XXXXXXXXX
+                                    </td>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <button class="sign_button">
+                <img src="{% static 'title.create_account.png' %}" alt="Create Account" height="18px">
+            </button>
+        </form>
+    </div>
+
+    <script>
+        function ShowInfoUsername() {
+            const a = document.getElementById("info_password");
+            if (a.classList.contains("info_password")) {a.className = "hidden";}
+
+            const b = document.getElementById("info_phone_num");
+            if (b.classList.contains("info_phone_num")) {b.className = "hidden";}
+
+            const field = document.querySelector('#info_username');
+            field.classList.toggle('hidden');
+            field.classList.toggle('info_username');
+            setTimeout(() => {field.className = "hidden";}, 4500)
+        }
+
+        function ShowInfoPassword() {
+            const a = document.getElementById("info_username");
+            if (a.classList.contains("info_username")) {a.className = "hidden";}
+
+            const b = document.getElementById("info_phone_num");
+            if (b.classList.contains("info_phone_num")) {b.className = "hidden";}
+
+            const field = document.querySelector('#info_password');
+            field.classList.toggle('hidden');
+            field.classList.toggle('info_password');
+            setTimeout(() => {field.className = "hidden";}, 3500)
+        }
+
+        function ShowInfoPhoneNum() {
+            const a = document.getElementById("info_password");
+            if (a.classList.contains("info_password")) {a.className = "hidden";}
+
+            const b = document.getElementById("info_username");
+            if (b.classList.contains("info_username")) {b.className = "hidden";}
+
+            const field = document.querySelector('#info_phone_num');
+            field.classList.toggle('hidden');
+            field.classList.toggle('info_phone_num');
+            setTimeout(() => {field.className = "hidden";}, 5000)
+        }
+    </script>
+{% endblock %}
