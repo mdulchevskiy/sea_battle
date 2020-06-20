@@ -21,7 +21,7 @@ in turn don't affect the correct work of the application.
 размер загружаемого изображения профиля, по умолчанию равный 2MB. Также изображение профиля должно быть в формате квадрата;
 
 <p align="center"><img src="screenshots/account_page_1.png" width="200"/> <img src="screenshots/account_page_2.png" width="200"/> <img src="screenshots/account_page_3.png" width="200"/> <img src="screenshots/account_page_4.png" width="200"/></p>
-<p align="center"><img src="screenshots/account_page_5.png" width="170"/> <img src="screenshots/account_page_6.png" width="170"/> <img src="screenshots/account_page_7.png" width="170"/> <img src="screenshots/account_page_8.png" width="189"/> <img src="screenshots/account_page_9.PNG" width="100"/></p>
+<p align="center"><img src="screenshots/account_page_5.png" width="200"/> <img src="screenshots/account_page_6.png" width="200"/> <img src="screenshots/account_page_7.png" width="200"/> <img src="screenshots/account_page_8.png" height="256"/></p>
 
 - переход на главную страницу сайта осуществляется с помощью адресной строки или специальных стрелок на других страницах в левом верхнем углу. На главной странице сайта отображается таблица лидеров, если в базе данных присутствуют победные игры, если отсутствуют - таблица не отображается. После нажатия кнопки "Start Game" будет произведен переход на страницу подготовки к игре, если до этого не была начата игра, иначе будет предложено начать новую игру или продолжить старую;
 
