@@ -129,6 +129,7 @@ dmypy.json
 .idea/
 .idea
 passwords.py
+.social_preview.png
 raw_pictures
 raw_pictures/
 *.sqlite3
