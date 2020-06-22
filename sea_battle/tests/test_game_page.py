@@ -1,6 +1,5 @@
 from django.test import TestCase
-from datetime import datetime
-from pytz import UTC
+from django.utils import timezone
 from sea_battle.models import Game
 from sea_battle.funcs import (matrix_to_str,
                               str_to_matrix, )
@@ -35,7 +34,7 @@ base_ships = [
 class SeaBattleGamePageViewTestCase(TestCase):
     def setUp(self):
         Game.objects.create(
-            game_date=datetime.now(tz=UTC),
+            game_date=timezone.now(),
             player_field=matrix_to_str(base_ship_field),
             enemy_field=matrix_to_str(base_ship_field),
             enemy_field_with_player_moves=matrix_to_str(base_ship_field),
@@ -145,7 +144,7 @@ class SeaBattleGamePageViewTestCase(TestCase):
             [0, 0, 0, 0, 4, 0, 0, 0, 0, 0],
         ]
         Game.objects.create(
-            game_date=datetime.now(tz=UTC),
+            game_date=timezone.now(),
             moves=1,
             player_field=matrix_to_str(ship_field),
             enemy_field=matrix_to_str(ship_field),
@@ -352,7 +351,7 @@ class SeaBattleGamePageViewTestCase(TestCase):
             [0, 0, 0, 0, 4, 0, 0, 0, 0, 0],
         ]
         Game.objects.create(
-            game_date=datetime.now(tz=UTC),
+            game_date=timezone.now(),
             player_field=matrix_to_str(ship_field),
             enemy_field=matrix_to_str(ship_field),
             enemy_field_with_player_moves=matrix_to_str(ship_field),

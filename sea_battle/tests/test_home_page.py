@@ -1,6 +1,5 @@
 from django.test import TestCase
-from datetime import datetime
-from pytz import UTC
+from django.utils import timezone
 from sea_battle.models import (Game,
                                User, )
 
@@ -32,7 +31,7 @@ class SeaBattleHomePageViewTestCase(TestCase):
             session_key=self.client.session.session_key,
         )
         Game.objects.create(
-            game_date=datetime.now(tz=UTC),
+            game_date=timezone.now(),
             user=User.objects.get(id=1),
             player_field=normal_field,
             enemy_field=normal_field,
@@ -41,7 +40,7 @@ class SeaBattleHomePageViewTestCase(TestCase):
             messages='no message',
         )
         Game.objects.create(
-            game_date=datetime.now(tz=UTC),
+            game_date=timezone.now(),
             status='Win',
             player_field=normal_field,
             enemy_field=normal_field,

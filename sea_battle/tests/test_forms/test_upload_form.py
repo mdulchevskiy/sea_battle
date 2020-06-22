@@ -87,4 +87,4 @@ class SeaBattleUploadFormTestCase(TestCase):
         form = UploadForm(files={'upload': image})
         self.assertFalse(form.is_valid())
         error_message = form.errors.as_data()['__all__'][0].message
-        self.assertEqual(error_message, 'File size should be less than 5.0 MB (current: 85.8 MB).')
+        self.assertEqual(error_message, 'File size should be less than 2.0 MB (current: 85.8 MB).')

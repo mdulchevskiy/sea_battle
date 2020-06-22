@@ -1,6 +1,5 @@
 from django.test import TestCase
-from datetime import datetime
-from pytz import UTC
+from django.utils import timezone
 from sea_battle.models import Game
 
 
@@ -25,7 +24,7 @@ class SeaBattlePreparationPageViewTestCase(TestCase):
         Проверка перенаправления на страницу игры, когда игра уже начата.
         """
         Game.objects.create(
-            game_date=datetime.now(tz=UTC),
+            game_date=timezone.now(),
             player_field=normal_field,
             enemy_field=normal_field,
             enemy_field_with_player_moves=normal_field,

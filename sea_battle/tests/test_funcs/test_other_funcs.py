@@ -1,3 +1,6 @@
+import pytz
+from django.conf import settings
+from django.utils import timezone
 from django.test import (TestCase,
                          override_settings, )
 from sea_battle.models import (Game,
@@ -13,7 +16,11 @@ from sea_battle.funcs.other_funcs import (get_rand_ship_field,
 
 class SeaBattleOtherFuncsTestCase(TestCase):
     def setUp(self):
-        dates = [datetime(2020, 1, 1), datetime(2020, 5, 1), datetime.now() - timedelta(minutes=40)]
+        dates = [
+            datetime(2020, 1, 1, tzinfo=pytz.timezone(settings.TIME_ZONE)),
+            datetime(2020, 5, 1, tzinfo=pytz.timezone(settings.TIME_ZONE)),
+            timezone.now() - timedelta(minutes=40),
+        ]
         for i, date in enumerate(dates):
             User.objects.create(
                 username=f'maxi{"m" * i}',

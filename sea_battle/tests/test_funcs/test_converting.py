@@ -1,7 +1,6 @@
 from django.test import TestCase
+from django.utils import timezone
 from sea_battle.models import Game
-from pytz import UTC
-from datetime import datetime
 from sea_battle.funcs.converting import (get_leaderboard,
                                          phone_number_formatting,
                                          prepare_ships,
@@ -29,7 +28,7 @@ class SeaBattleConvertingFuncsTestCase(TestCase):
         for i in range(7, 1, -1):
             Game.objects.create(
                 status='Win',
-                game_date=datetime.now(tz=UTC),
+                game_date=timezone.now(),
                 moves=i*10,
                 points=i*10,
                 player_field=normal_field,
