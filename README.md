@@ -2,7 +2,7 @@
 
 This app is my vision of the classic Sea Battle game. This project also reflects my current knowledge of python and Django. The emphasis was placed on the back-end, so in terms of the front-end, there are some nuances of optimization on mobile devices, which in turn don't affect the correct work of the application.
 
-Link to Heroku application: http://md-sea-battle.herokuapp.com/
+Link to Heroku application: http://md-sea-battle.herokuapp.com/  
 Link to the web-site: www.seabattle.xyz
 
 ## Description
